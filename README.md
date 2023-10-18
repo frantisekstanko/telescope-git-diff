@@ -4,6 +4,8 @@ A [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 extension that makes it easy to list all the files modified on the current
 branch, i.e. "what will the pull request look like".
 
+![Screenshot](https://i.imgur.com/Lu2G618.png)
+
 ## How to use
 
 Minimal example for [lazy.nvim](https://github.com/folke/lazy.nvim):
