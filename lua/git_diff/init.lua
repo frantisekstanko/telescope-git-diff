@@ -17,6 +17,11 @@ m.modified_on_current_branch = function()
     local gitFileList =
         vim.fn.systemlist("git diff --name-only --relative main...HEAD")
 
+    if vim.tbl_isempty(gitFileList) then
+        print("No modified files on current branch.")
+        return
+    end
+
     local telescopeResults = {}
     for _, file in ipairs(gitFileList) do
         table.insert(telescopeResults, {
