@@ -5,18 +5,40 @@ local previewers = require("telescope.previewers")
 
 local m = {}
 
+local file_display_name = function(file)
+    if vim.fn.filereadable(file) == 0 then
+        return "D " .. file
+    end
+
+    return "  " .. file
+end
+
 m.modified_on_current_branch = function()
+    local gitFileList =
+        vim.fn.systemlist("git diff --name-only --relative main...HEAD")
+
+    local telescopeResults = {}
+    for _, file in ipairs(gitFileList) do
+        table.insert(telescopeResults, {
+            display = file_display_name(file),
+            value = file,
+        })
+    end
+
     pickers
         .new({
             initial_mode = "normal",
             results_title = "Modified on current branch",
             prompt_title = false,
-            finder = finders.new_oneshot_job({
-                "git",
-                "diff",
-                "--name-only",
-                "--relative",
-                "main...HEAD",
+            finder = finders.new_table({
+                results = telescopeResults,
+                entry_maker = function(entry)
+                    return {
+                        value = entry.value,
+                        display = entry.display,
+                        ordinal = entry.display,
+                    }
+                end,
             }),
             sorter = sorters.get_fuzzy_file(),
             previewer = previewers.new_termopen_previewer({
