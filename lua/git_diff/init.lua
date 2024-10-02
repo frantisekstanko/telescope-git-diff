@@ -89,7 +89,7 @@ m.modified_on_current_branch = function(opts)
             "git",
             "diff",
             "--relative",
-            "main",
+            opts.diff_against_branch,
             entry.value,
           }
         end,
