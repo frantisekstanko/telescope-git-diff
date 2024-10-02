@@ -50,3 +50,16 @@ function()
     })
 end,
 ```
+
+### Show only basenames in the file list
+
+This will not show the full paths in the filelist.
+
+```lua
+function()
+    local git_diff = require("telescope").extensions.git_diff
+    git_diff.modified_on_current_branch({
+        show_only_basenames = true,
+    })
+end,
+```

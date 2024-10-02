@@ -5,12 +5,18 @@ local previewers = require "telescope.previewers"
 
 local m = {}
 
-local file_display_name = function(file)
-  if vim.fn.filereadable(file) == 0 then
-    return "D " .. file
+local file_display_name = function(file, show_only_basenames)
+  local display_file_name = file
+
+  if show_only_basenames then
+    display_file_name = vim.fn.fnamemodify(file, ":t")
   end
 
-  return "  " .. file
+  if vim.fn.filereadable(file) == 0 then
+    return "D " .. display_file_name
+  end
+
+  return "  " .. display_file_name
 end
 
 local main_branch_name = function()
@@ -32,6 +38,7 @@ end
 m.modified_on_current_branch = function(opts)
   opts = opts or {}
   opts.diff_against_branch = opts.diff_against_branch or main_branch_name()
+  opts.show_only_basenames = opts.show_only_basenames or false
 
   local gitFileList = vim.fn.systemlist("git diff --name-only --relative " .. opts.diff_against_branch .. "...HEAD")
 
@@ -48,7 +55,7 @@ m.modified_on_current_branch = function(opts)
   local telescopeResults = {}
   for _, file in ipairs(gitFileList) do
     table.insert(telescopeResults, {
-      display = file_display_name(file),
+      display = file_display_name(file, opts.show_only_basenames),
       value = file,
     })
   end
