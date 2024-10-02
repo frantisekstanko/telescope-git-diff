@@ -98,4 +98,63 @@ m.modified_on_current_branch = function(opts)
     :find()
 end
 
+local commit_info = function(commit_hash)
+  local commit_info = vim.fn.systemlist("git show --no-patch --pretty=format:'%ar ┃ %an ┃ %s' " .. commit_hash)
+
+  return commit_info[1]
+end
+
+m.file_commit_history = function(opts)
+  opts = opts or {}
+  opts.file_path = opts.file_path or vim.fn.expand "%"
+
+  if vim.fn.filereadable(opts.file_path) == 0 then
+    print "File is not readable."
+    return
+  end
+
+  local commits = vim.fn.systemlist("git log --pretty=format:%h -- " .. opts.file_path)
+
+  local telescopeResults = {}
+  for _, commit_hash in ipairs(commits) do
+    table.insert(telescopeResults, {
+      display = commit_info(commit_hash),
+      value = commit_hash,
+    })
+  end
+
+  local baseName = vim.fn.fnamemodify(opts.file_path, ":t")
+
+  pickers
+    .new({
+      initial_mode = "normal",
+      results_title = "Commit history for " .. baseName,
+      prompt_title = false,
+      finder = finders.new_table {
+        results = telescopeResults,
+        entry_maker = function(entry)
+          return {
+            value = entry.value,
+            display = entry.display,
+            ordinal = entry.display,
+          }
+        end,
+      },
+      sorter = sorters.get_fzy_sorter(),
+      previewer = previewers.new_termopen_previewer {
+        get_command = function(entry)
+          return {
+            "git",
+            "show",
+            "--patch",
+            entry.value,
+            "--",
+            opts.file_path,
+          }
+        end,
+      },
+    })
+    :find()
+end
+
 return m

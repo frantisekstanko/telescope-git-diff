@@ -63,3 +63,20 @@ function()
     })
 end,
 ```
+
+## Show commit history for a file
+
+Example binding to show the commit history of a file. If no options are
+provided, the history is shown for the current file. Otherwise, the filename
+can be provided as `file_path`. This should rarely be needed.
+
+```lua
+{
+    desc = "Commit history for current file",
+    "<leader>=",
+    function()
+        local git_diff = require("telescope").extensions.git_diff
+        git_diff.file_commit_history()
+    end,
+},
+```
