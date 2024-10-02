@@ -13,8 +13,32 @@ local file_display_name = function(file)
   return "  " .. file
 end
 
-m.modified_on_current_branch = function()
-  local gitFileList = vim.fn.systemlist "git diff --name-only --relative main...HEAD"
+local main_branch_name = function()
+  vim.fn.system "git rev-parse --verify main"
+
+  if vim.v.shell_error == 0 then
+    return "main"
+  end
+
+  vim.fn.system "git rev-parse --verify master"
+
+  if vim.v.shell_error == 0 then
+    return "master"
+  end
+
+  return nil
+end
+
+m.modified_on_current_branch = function(opts)
+  opts = opts or {}
+  opts.diff_against_branch = opts.diff_against_branch or main_branch_name()
+
+  local gitFileList = vim.fn.systemlist("git diff --name-only --relative " .. opts.diff_against_branch .. "...HEAD")
+
+  if vim.v.shell_error ~= 0 then
+    print("Branch " .. opts.diff_against_branch .. " does not exist.")
+    return
+  end
 
   if vim.tbl_isempty(gitFileList) then
     print "No modified files on current branch."

@@ -35,3 +35,18 @@ return {
     },
 }
 ```
+
+### Specifying the branch to diff against
+
+If your main branch is called something other than `main`, or you want to view
+the diff compared to a different branch, you can specify the branch name as
+such:
+
+```lua
+function()
+    local git_diff = require("telescope").extensions.git_diff
+    git_diff.modified_on_current_branch({
+        diff_against_branch = "dev",
+    })
+end,
+```
