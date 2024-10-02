@@ -2,21 +2,24 @@ local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local sorters = require "telescope.sorters"
 local previewers = require "telescope.previewers"
+local devicons = require "nvim-web-devicons"
 
 local m = {}
 
 local file_display_name = function(file, show_only_basenames)
   local display_file_name = file
 
+  local icon = devicons.get_icon(file, vim.fn.fnamemodify(file, ":e"), { default = true })
+
   if show_only_basenames then
     display_file_name = vim.fn.fnamemodify(file, ":t")
   end
 
   if vim.fn.filereadable(file) == 0 then
-    return "D " .. display_file_name
+    return "D " .. icon .. " " .. display_file_name
   end
 
-  return "  " .. display_file_name
+  return "  " .. icon .. " " .. display_file_name
 end
 
 local main_branch_name = function()
