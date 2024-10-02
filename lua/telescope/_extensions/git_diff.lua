@@ -1,7 +1,7 @@
-local git_diff = require("git_diff")
+local git_diff = require "git_diff"
 
-return require("telescope").register_extension({
-    exports = {
-        modified_on_current_branch = git_diff.modified_on_current_branch,
-    },
-})
+return require("telescope").register_extension {
+  exports = {
+    modified_on_current_branch = git_diff.modified_on_current_branch,
+  },
+}
