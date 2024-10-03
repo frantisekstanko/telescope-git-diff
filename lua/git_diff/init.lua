@@ -12,7 +12,14 @@ local file_display_name = function(file, show_only_basenames)
   local icon = devicons.get_icon(file, vim.fn.fnamemodify(file, ":e"), { default = true })
 
   if show_only_basenames then
-    display_file_name = vim.fn.fnamemodify(file, ":t")
+    local file_path_parts = vim.fn.split(file, "/")
+
+    if #file_path_parts > 3 then
+      display_file_name =
+        table.concat({ file_path_parts[1], file_path_parts[2], "...", file_path_parts[#file_path_parts] }, "/")
+    end
+
+    return "  " .. icon .. " " .. display_file_name
   end
 
   if vim.fn.filereadable(file) == 0 then
