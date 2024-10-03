@@ -1,8 +1,8 @@
 # telescope-git-diff
 
 A [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-extension that makes it easy to list all the files modified on the current
-branch, i.e. "what will the pull request look like".
+extension that makes it easy to list all modified files on the current branch
+branch, or show a commit history for the current file.
 
 ![Screenshot](https://i.imgur.com/Lu2G618.png)
 
