@@ -1,10 +1,22 @@
-# telescope-git-diff
+# telescopn-git-diff
 
 A [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 extension that makes it easy to list all modified files on the current branch
 branch, or show a commit history for the current file.
 
+## Modified on current branch
+
+This one opens almost instantly.
+
 ![Screenshot](https://i.imgur.com/BSsSPxb.png)
+
+## File commit history
+
+This one is very performant compared to other similar plugins or extensions
+I could find and test. Most of them freeze neovim when used with big
+repositories. This implementation works fine even with
+the [Linux kernel](https://github.com/torvalds/linux).
+
 ![Screenshot](https://i.imgur.com/VQLlkK8.png)
 
 ## How to use
