@@ -15,33 +15,33 @@ example key bindings:
 
 ```lua
 return {
-    "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
-    dependencies = {
-        { "nvim-lua/plenary.nvim" },
-        { "frantisekstanko/telescope-git-diff" },
+  "nvim-telescope/telescope.nvim",
+  branch = "0.1.x",
+  dependencies = {
+    { "nvim-lua/plenary.nvim" },
+    { "frantisekstanko/telescope-git-diff" },
+  },
+  config = function()
+    local telescope = require("telescope")
+    telescope.setup()
+    telescope.load_extension("git_diff")
+  end,
+  keys = {
+    {
+      "<leader>m",
+      function()
+        require("telescope").extensions.git_diff.modified_on_current_branch()
+      end,
+      desc = "Show modified on current branch",
     },
-    config = function()
-        local telescope = require("telescope")
-        telescope.setup()
-        telescope.load_extension("git_diff")
-    end,
-    keys = {
-        {
-            "<leader>m",
-            function()
-                require("telescope").extensions.git_diff.modified_on_current_branch()
-            end,
-            desc = "Show modified on current branch",
-        },
-        {
-            desc = "Commit history for current file",
-            "<leader>=",
-            function()
-                require("telescope").extensions.git_diff.file_commit_history()
-            end,
-        },
+    {
+      desc = "Commit history for current file",
+      "<leader>=",
+      function()
+        require("telescope").extensions.git_diff.file_commit_history()
+      end,
     },
+  },
 }
 ```
 
@@ -53,10 +53,10 @@ such:
 
 ```lua
 function()
-    local git_diff = require("telescope").extensions.git_diff
-    git_diff.modified_on_current_branch({
-        diff_against_branch = "dev",
-    })
+  local git_diff = require("telescope").extensions.git_diff
+  git_diff.modified_on_current_branch({
+    diff_against_branch = "dev",
+  })
 end,
 ```
 
@@ -66,10 +66,10 @@ This will not show the full paths in the filelist.
 
 ```lua
 function()
-    local git_diff = require("telescope").extensions.git_diff
-    git_diff.modified_on_current_branch({
-        show_only_basenames = true,
-    })
+  local git_diff = require("telescope").extensions.git_diff
+  git_diff.modified_on_current_branch({
+    show_only_basenames = true,
+  })
 end,
 ```
 
@@ -81,11 +81,11 @@ can be provided as `file_path`. This should rarely be needed.
 
 ```lua
 {
-    desc = "Commit history for current file",
-    "<leader>=",
-    function()
-        local git_diff = require("telescope").extensions.git_diff
-        git_diff.file_commit_history()
-    end,
+  desc = "Commit history for current file",
+  "<leader>=",
+  function()
+    local git_diff = require("telescope").extensions.git_diff
+    git_diff.file_commit_history()
+  end,
 },
 ```
