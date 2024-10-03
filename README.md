@@ -8,7 +8,10 @@ branch, or show a commit history for the current file.
 
 ## How to use
 
-Minimal example for [lazy.nvim](https://github.com/folke/lazy.nvim):
+The extension does not perform any key bindings. You have to provide your own.
+
+A minimal example for [lazy.nvim](https://github.com/folke/lazy.nvim) with
+example key bindings:
 
 ```lua
 return {
