@@ -5,6 +5,7 @@ extension that makes it easy to list all modified files on the current branch
 branch, or show a commit history for the current file.
 
 ![Screenshot](https://i.imgur.com/BSsSPxb.png)
+![Screenshot](https://i.imgur.com/VQLlkK8.png)
 
 ## How to use
 
