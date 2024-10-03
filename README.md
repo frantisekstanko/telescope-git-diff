@@ -31,6 +31,13 @@ return {
             end,
             desc = "Show modified on current branch",
         },
+        {
+            desc = "Commit history for current file",
+            "<leader>=",
+            function()
+                require("telescope").extensions.git_diff.file_commit_history()
+            end,
+        },
     },
 }
 ```
