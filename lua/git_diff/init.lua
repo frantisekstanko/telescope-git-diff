@@ -18,8 +18,6 @@ local file_display_name = function(file, show_only_basenames)
       display_file_name =
         table.concat({ file_path_parts[1], file_path_parts[2], "...", file_path_parts[#file_path_parts] }, "/")
     end
-
-    return "  " .. icon .. " " .. display_file_name
   end
 
   if vim.fn.filereadable(file) == 0 then
