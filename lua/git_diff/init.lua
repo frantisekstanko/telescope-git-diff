@@ -162,4 +162,64 @@ m.file_commit_history = function(opts)
     :find()
 end
 
+m.modified_in_last_commit = function(opts)
+  opts = opts or {}
+  opts.show_only_basenames = opts.show_only_basenames or false
+
+  local gitFileList = vim.fn.systemlist "git diff --name-only HEAD~1 HEAD"
+
+  if vim.v.shell_error ~= 0 then
+    print "No commits found."
+    return
+  end
+
+  if vim.tbl_isempty(gitFileList) then
+    print "No modified files in last commit."
+    return
+  end
+
+  local telescopeResults = {}
+  for _, file in ipairs(gitFileList) do
+    table.insert(telescopeResults, {
+      display = file_display_name(file, opts.show_only_basenames),
+      value = file,
+    })
+  end
+
+  pickers
+    .new({
+      initial_mode = "normal",
+      results_title = "Modified in last commit",
+      prompt_title = false,
+      finder = finders.new_table {
+        results = telescopeResults,
+        entry_maker = function(entry)
+          return {
+            value = entry.value,
+            display = entry.display,
+            ordinal = entry.display,
+          }
+        end,
+      },
+      sorter = sorters.get_fzy_sorter(),
+      previewer = previewers.new_termopen_previewer {
+        get_command = function(entry)
+          if vim.fn.filereadable(entry.value) == 0 then
+            return { "echo", "File was deleted." }
+          end
+
+          return {
+            "git",
+            "diff",
+            "HEAD~1",
+            "HEAD",
+            "--",
+            entry.value,
+          }
+        end,
+      },
+    })
+    :find()
+end
+
 return m

@@ -104,3 +104,16 @@ can be provided as `file_path`. This should rarely be needed.
   end,
 },
 ```
+
+## Show modified in last commit
+
+```lua
+{
+  desc = "Modified in last commit",
+  "<leader>n",
+  function()
+    local git_diff = require("telescope").extensions.git_diff
+    git_diff.modified_in_last_commit()
+  end,
+},
+```
